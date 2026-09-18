@@ -2,7 +2,7 @@ package com.mycompany.registration;
 import java.util.Scanner;
 
 public class Main {
-
+    // Start the registration and login application
     public static void main(String[] args) {
         // Creates a Scanner object to allow the user to enter information
         Scanner scanner = new Scanner(System.in);
