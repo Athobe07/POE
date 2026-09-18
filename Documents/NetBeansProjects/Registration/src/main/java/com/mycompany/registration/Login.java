@@ -62,7 +62,7 @@ public class Login {
 
         return cellPhoneNumber.matches("^\\+27\\d{9}$");
     }
-    // Try to register the user by checking if they have met the requirements
+    // Register the user after checking the username, password and cell phone number
     public String registerUser() {
 
         if (!checkUserName()) {
