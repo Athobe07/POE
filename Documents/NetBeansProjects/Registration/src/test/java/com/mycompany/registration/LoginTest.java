@@ -2,7 +2,7 @@ package com.mycompany.registration;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
-
+// Test username, password, cell phone, registration and login functionality
 public class LoginTest {
     
     @Test
