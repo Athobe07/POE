@@ -70,7 +70,7 @@ public class Login {
         }
 
         if (!checkPasswordComplexity()) {
-            return "Password is not correctly formatted; please ensure that the password contains at least eight characters, a capital letter, a number, and a special character.";
+            return "Password is not correctly formatted; please ensure that the password contains at least eight characters, a capital letter, a number, and a " + "special character.";
         }
 
         if (!checkCellPhoneNumber()) {

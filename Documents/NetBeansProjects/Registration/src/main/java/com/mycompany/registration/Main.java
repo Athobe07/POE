@@ -33,7 +33,7 @@ public class Main {
                 password,
                 cellPhoneNumber
         );
-
+        
         System.out.println();
         System.out.println("Registration Result:");
 

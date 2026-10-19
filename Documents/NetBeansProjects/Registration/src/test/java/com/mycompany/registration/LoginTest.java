@@ -53,7 +53,6 @@ public class LoginTest {
         assertFalse(login.loginUser("kyl_1", "wrongPassword1!"));
     }
 
-    
     @Test
     public void testRegisterUser_UsernameIncorrectlyFormatted() {
         Login login = new Login("Kyle", "Smith", "kyle!!!!!!", "Ch&&sec@ke99!", "+27838968976");
@@ -69,8 +68,7 @@ public class LoginTest {
         assertEquals(
             "Password is not correctly formatted; please ensure that the password "
             + "contains at least eight characters, a capital letter, a number, and "
-            + "a special character.",
-            login.registerUser());
+            + "a special character.",    login.registerUser());
     }
 
     @Test
