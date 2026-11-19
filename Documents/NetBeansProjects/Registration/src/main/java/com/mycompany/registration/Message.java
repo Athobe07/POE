@@ -1,4 +1,5 @@
 package com.mycompany.registration;
+
 import java.util.Random;
 
 public class Message {
@@ -12,7 +13,9 @@ public class Message {
 
     private static int totalMessagesSent = 0;
 
+    // Constructor
     public Message(int messageNumber, String recipient, String message) {
+
         this.messageNumber = messageNumber;
         this.recipient = recipient;
         this.message = message;
@@ -21,8 +24,26 @@ public class Message {
         this.messageStatus = "Pending";
     }
 
+    // Constructor for loading existing messages
+    public Message(String messageID, int messageNumber,
+                   String recipient, String message,
+                   String messageHash, String messageStatus) {
+
+        this.messageID = messageID;
+        this.messageNumber = messageNumber;
+        this.recipient = recipient;
+        this.message = message;
+        this.messageHash = messageHash;
+        this.messageStatus = messageStatus;
+
+        if ("Sent".equals(messageStatus)) {
+            totalMessagesSent++;
+        }
+    }
+
     // Generate a random 10-digit message ID
     private String generateMessageID() {
+
         Random random = new Random();
 
         long number = 1_000_000_000L
@@ -31,112 +52,112 @@ public class Message {
         return String.valueOf(number);
     }
 
-    // Check that the message ID contains no more than 10 characters
+    // Check message ID
     public boolean checkMessageID() {
+
         return messageID != null
-                && messageID.length() <= 10;
+                && messageID.matches("\\d{1,10}");
     }
 
-    // Validate the recipient's international phone number
+    // Validate recipient number
     public String checkRecipientCell() {
 
-        if (recipient == null) {
-            return "Cell phone number is incorrectly formatted "
-                    + "or does not contain an international code. "
-                    + "Please correct the number and try again.";
-        }
-
-        String number = recipient.trim();
-
-        if (number.matches("^\\+[1-9]\\d{7,11}$")) {
-            return "Cell phone number successfully captured.";
-        }
-
-        return "Cell phone number is incorrectly formatted "
-                + "or does not contain an international code. "
-                + "Please correct the number and try again.";
+    if (recipient == null) {
+        return "Cell phone number is incorrectly formatted or does not contain an international code. Please correct the number and try again.";
     }
 
-    // Check whether the recipient number is valid
+    String number = recipient.trim();
+
+    if (number.matches("^\\+[1-9]\\d{7,11}$")) {
+        return "Cell phone number successfully captured.";
+    }
+
+    return "Cell phone number is incorrectly formatted or does not contain an international code. Please correct the number and try again.";
+}
+
+    // Check recipient validity
     public boolean isRecipientValid() {
+
         return checkRecipientCell().equals(
                 "Cell phone number successfully captured.");
     }
 
-    // Validate the message length
+    // Validate message length
     public String validateMessage() {
 
-        if (message == null) {
-            return "Please enter a message of less than 250 characters.";
-        }
+        if (message == null || message.length() > 250) {
 
-        if (message.length() > 250) {
             return "Please enter a message of less than 250 characters.";
         }
 
         return "Message ready to send.";
     }
 
-    // Create the message hash
+    // Create message hash
     public String createMessageHash() {
 
     String firstTwoDigits = messageID.substring(0, 2);
 
-        String firstWord = "";
-        String lastWord = "";
+    String firstWord = "";
+    String lastWord = "";
 
-        if (message != null && !message.trim().isEmpty()) {
+    if (message != null && !message.trim().isEmpty()) {
 
-            String[] words = message.trim().split("\\s+");
+        String[] words = message.trim().split("\\s+");
 
-            firstWord = words[0];
-            lastWord = words[words.length - 1];
-        }
-
-        return (firstTwoDigits + ":"
-                + messageNumber + ":"
-                + firstWord + lastWord).toUpperCase();
+        firstWord = words[0].replaceAll("[^a-zA-Z0-9]", "");
+        lastWord = words[words.length - 1]
+                .replaceAll("[^a-zA-Z0-9]", "");
     }
 
-    // Allow the user to send, discard, or store a message
+    return (firstTwoDigits + ":"
+            + messageNumber + ":"
+            + firstWord + lastWord).toUpperCase();
+}
+
+    // Send, disregard or store message
     public String SentMessage(int choice) {
 
-        switch (choice) {
+    switch (choice) {
 
-            case 1:
-                if (!checkMessageID()) {
-                    return "Invalid message ID.";
-                }
+        case 1:
 
-                if (!isRecipientValid()) {
-                    return checkRecipientCell();
-                }
+            if (!checkMessageID()) {
+                return "Invalid message ID.";
+            }
 
-                if (message == null || message.length() > 250) {
-                    return validateMessage();
-                }
+            if (!isRecipientValid()) {
+                return checkRecipientCell();
+            }
 
-                messageStatus = "Sent";
-                totalMessagesSent++;
+            if (message == null || message.length() > 250) {
+                return validateMessage();
+            }
 
-                return "Message successfully sent.";
+            messageStatus = "Sent";
+            totalMessagesSent++;
 
-            case 2:
-                messageStatus = "Discarded";
+            return "Message successfully sent.";
 
-                return "Press 0 to delete the message.";
+        case 2:
 
-            case 3:
-                messageStatus = "Stored";
+            messageStatus = "Discarded";
 
-                return "Message successfully stored.";
+            return "Press 0 to delete the message.";
 
-            default:
-                return "Invalid option selected.";
-        }
+        case 3:
+
+            messageStatus = "Stored";
+
+            return "Message successfully stored.";
+
+        default:
+
+            return "Invalid option selected.";
     }
+}
 
-    // Return the message details
+    // Display message details
     public String printMessages() {
 
         return "Message ID: " + messageID
@@ -146,11 +167,13 @@ public class Message {
                 + "\nStatus: " + messageStatus;
     }
 
-    // Return the total number of messages sent
+    // Get total sent messages
     public static int returnTotalMessages() {
+
         return totalMessagesSent;
     }
 
+    // Getters
     public String getMessageID() {
         return messageID;
     }
@@ -175,7 +198,9 @@ public class Message {
         return messageStatus;
     }
 
+    // Setter
     public void setMessageStatus(String messageStatus) {
+
         this.messageStatus = messageStatus;
     }
 }
